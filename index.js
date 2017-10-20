@@ -16,6 +16,7 @@ app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', require('./routes/signin'));
+app.use('/signup', require('./routes/signup'));
 app.listen(3030, function() {
     console.log('开始监听')
 })
