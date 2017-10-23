@@ -37,9 +37,19 @@ app.use(require('express-formidable')({
     uploadDir: path.join(__dirname, 'public/img'),// 上传文件目录
     keepExtensions: true// 保留后缀
 }));
+
+// 添加模板必需的三个变量
+app.use(function (req, res, next) {
+    res.locals.user = req.session.user;
+    res.locals.success = req.flash('success').toString();
+    res.locals.error = req.flash('error').toString();
+    next();
+  });
 app.use('/', require('./routes/signin'));
 app.use('/signin', require('./routes/signin'));
 app.use('/signup', require('./routes/signup'));
+app.use('/posts', require('./routes/posts'));
+
 app.listen(config.port, function () {
     console.log('开始监听')
 })
