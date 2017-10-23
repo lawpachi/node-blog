@@ -15,7 +15,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 // 设置静态文件目录
 app.use(express.static(path.join(__dirname, 'public')));
-// session 中间件
+
 // session 中间件
 app.use(session({
     name: config.session.key,// 设置 cookie 中保存 session id 的字段名称
@@ -29,12 +29,16 @@ app.use(session({
         url: config.mongodb// mongodb 地址
     })
 }));
+// flash 中间件，用来显示通知
+app.use(flash());
+
 // 处理表单及文件上传的中间件
 app.use(require('express-formidable')({
     uploadDir: path.join(__dirname, 'public/img'),// 上传文件目录
     keepExtensions: true// 保留后缀
 }));
 app.use('/', require('./routes/signin'));
+app.use('/signin', require('./routes/signin'));
 app.use('/signup', require('./routes/signup'));
 app.listen(config.port, function () {
     console.log('开始监听')
